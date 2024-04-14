@@ -1,0 +1,45 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+
+<div class="author-details">
+    <h3 class="author-title">
+        {{ author.fullname }}
+    </h3>
+
+    <p>
+        <strong>Born:</strong>
+        <span class="author-born-date">{{ author.born_date }}</span>
+        <span class="author-born-location">{{ author.born_location }}</span>
+    </p>
+
+    <p>
+        <strong>Description:</strong>
+    </p>
+
+    <div class="author-description mb-3">
+        {{ author.description }}
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-start">
+        <button id="edit-author" class="btn btn-primary">Edit Author</button>
+        <button id="delete-author" class="btn btn-danger" style="margin-left: 50px;">Delete Author</button>
+    </div>
+
+    <script>
+        document.getElementById('edit-author').addEventListener('click', function() {
+            window.location.href = "{% url 'quotes:edit_author' author.id %}";
+        });
+
+        document.getElementById('delete-author').addEventListener('click', function() {
+            if (confirm("Are you sure you want to delete this author?")) {
+                window.location.href = "{% url 'quotes:delete_author' author.id %}";
+            }
+        });
+    </script>
+    {% endif %}
+
+</div>
+
+{% endblock %}

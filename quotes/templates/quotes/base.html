@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quotes/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Quotes</title>
+    <style>
+        .navbar-collapse {
+            display: none;
+        }
+        .navbar-toggler-input {
+            display: none;
+        }
+        .navbar-toggler-icon {
+            cursor: pointer;
+        }
+        .navbar-toggler-input:checked ~ .navbar-collapse {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'quotes:root' %}">
+                <h1 class="display-4">Quotes by Famous People</h1>
+            </a>
+            <input type="checkbox" id="navbar-toggler" class="navbar-toggler-input">
+            <label class="navbar-toggler" for="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </label>
+            <div class="navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{% url 'quotes:authors' %}">Browse Authors</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{% url 'quotes:add_author' %}">Add Author</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{% url 'quotes:add_quote' %}">Add Quote</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="#">Add Tag</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'users:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-link nav-link" type="submit">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{% url 'users:signup' %}">SignUp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{% url 'users:login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

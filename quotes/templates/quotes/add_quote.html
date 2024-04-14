@@ -1,0 +1,44 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if form.errors and form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{form.non_field_errors}}
+    </div>
+    {% endif %}
+    <form action="{% url 'quotes:add_quote' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-9">
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    {{ form.author }}
+                    <span>{{form.errors.author}}</span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="quote" class="form-label">New quote</label>
+                    {{ form.quote }}
+                    <span>{{form.errors.quote}}</span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-3 tags-wrapper" style="height: auto;">
+                    <label for="tags" class="form-label">Tags</label>
+                    <select name="tags" class="form-control tags-select" id="tags" size="15" multiple>
+                        {% for tag in form.tags.field.queryset %}
+                        <option value="{{ tag.pk }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <span>{{ form.errors.tags }}</span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+</div>
+{% endblock %}
