@@ -34,7 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['quotes-vbit.koyeb.app', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quotes',
     'users',
-    'django_apscheduler',
+    # 'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +89,7 @@ DATABASES = {
         "USER": env('USER_DB'),
         "PASSWORD": env('PASSWORD_DB'),
         "HOST": env('HOST_DB'),
+        # "HOST": 'pgdb',
         "PORT": env('PORT_DB'),
     }
 }
@@ -145,3 +146,13 @@ OPEN_AI_KEY = env('OPEN_AI_KEY')
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_STARTTLS = False
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
